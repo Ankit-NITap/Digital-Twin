@@ -1,0 +1,664 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PetroPulse - Baghewala Reservoir Digital Twin</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Chart.js for the Live Well Profile -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">PP</div>
+            <div>
+                <h2>PetroPulse</h2>
+                <span>Digital Twin</span>
+            </div>
+        </div>
+
+        <nav>
+            <a href="#" class="nav-item active">
+                <span>⌂</span>
+                Dashboard
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>◉</span>
+                Well Monitor
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>◈</span>
+                Production
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>◌</span>
+                Reservoir
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>⚙</span>
+                Settings
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="connection">
+                <span class="green-dot"></span>
+                System Online
+            </div>
+
+            <small>Digital Twin v1.0</small>
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="main-content">
+
+        <!-- HEADER -->
+        <header class="header">
+
+            <div>
+                <p class="eyebrow">RESERVOIR MONITORING SYSTEM</p>
+
+                <h1>
+                    PETROPULSE BAGHEWALA
+                    <span>RESERVOIR DIGITAL TWIN</span>
+                </h1>
+            </div>
+
+            <div class="header-right">
+                <div class="live-indicator">
+                    <span></span>
+                    LIVE
+                </div>
+
+                <div class="time" id="currentTime">
+                    --:--:--
+                </div>
+            </div>
+
+        </header>
+
+
+        <!-- ================= WELL STATE ================= -->
+        <section class="well-state">
+
+            <div class="section-title">
+                <div>
+                    <p class="eyebrow">MONITORING</p>
+                    <h2>Current Well State</h2>
+                </div>
+
+                <div class="well-selector">
+                    <label for="wellSelect">Well</label>
+
+                    <select id="wellSelect">
+                        <option>BW-01</option>
+                        <option>BW-02</option>
+                        <option>BW-03</option>
+                        <option>BW-04</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <!-- ================= SENSOR CARDS ================= -->
+            <div class="cards">
+
+                <!-- Temperature -->
+                <div class="sensor-card">
+
+                    <div class="card-top">
+                        <span class="card-label">TEMPERATURE</span>
+                        <span class="status-dot blue"></span>
+                    </div>
+
+                    <div class="sensor-value">
+                        <span id="temperatureValue">78</span>
+                        <small>°C</small>
+                    </div>
+
+                    <div class="card-footer">
+                        <span>Current</span>
+
+                        <input
+                            type="range"
+                            id="temperatureSlider"
+                            min="40"
+                            max="120"
+                            value="78"
+                        >
+                    </div>
+
+                </div>
+
+
+                <!-- Viscosity -->
+                <div class="sensor-card">
+
+                    <div class="card-top">
+                        <span class="card-label">VISCOSITY</span>
+                        <span class="status-dot green"></span>
+                    </div>
+
+                    <div class="sensor-value">
+                        <span id="viscosityValue">12.5</span>
+                        <small>cP</small>
+                    </div>
+
+                    <div class="card-footer">
+                        <span>Current</span>
+
+                        <input
+                            type="range"
+                            id="viscositySlider"
+                            min="5"
+                            max="30"
+                            step="0.1"
+                            value="12.5"
+                        >
+                    </div>
+
+                </div>
+
+
+                <!-- Pressure -->
+                <div class="sensor-card">
+
+                    <div class="card-top">
+                        <span class="card-label">PRESSURE</span>
+                        <span class="status-dot blue"></span>
+                    </div>
+
+                    <div class="sensor-value">
+                        <span id="pressureValue">185</span>
+                        <small>bar</small>
+                    </div>
+
+                    <div class="card-footer">
+                        <span>Current</span>
+
+                        <input
+                            type="range"
+                            id="pressureSlider"
+                            min="100"
+                            max="300"
+                            value="185"
+                        >
+                    </div>
+
+                </div>
+
+
+                <!-- SRP Status -->
+                <div class="sensor-card srp-card">
+
+                    <div class="card-top">
+                        <span class="card-label">SRP STATUS</span>
+                        <span class="status-dot green"></span>
+                    </div>
+
+                    <div class="srp-status">
+                        <div class="srp-icon">✓</div>
+
+                        <div>
+                            <strong>RUNNING</strong>
+                            <p>Rod Pump System</p>
+                        </div>
+                    </div>
+
+                    <button class="control-btn" id="srpButton">
+                        STOP SRP
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= GRAPH ================= -->
+        <section class="dashboard-grid">
+
+            <div class="panel graph-panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <p class="eyebrow">REAL-TIME DATA</p>
+                        <h2>Live Well Profile</h2>
+                    </div>
+
+                    <div class="graph-legend">
+                        <span>
+                            <i class="legend-blue"></i>
+                            Pressure
+                        </span>
+
+                        <span>
+                            <i class="legend-green"></i>
+                            Temperature
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="wellChart"></canvas>
+                </div>
+
+            </div>
+<!-- =====================================
+     HISTORICAL WELL DATA
+===================================== -->
+
+<section class="history-section">
+
+    <div class="section-title">
+        <h2>Historical Well Data</h2>
+        <button id="historyRefresh">
+            ↻ Refresh History
+        </button>
+    </div>
+
+    <div class="history-table-container">
+
+        <table id="historyTable">
+
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Well</th>
+                    <th>Temperature</th>
+                    <th>Pressure</th>
+                    <th>Viscosity</th>
+                    <th>SRP Status</th>
+                </tr>
+            </thead>
+
+            <tbody id="historyBody">
+
+                <tr>
+                    <td colspan="6">
+                        Loading historical data...
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+<!-- ================= ANALYTICS ================= -->
+
+<section class="analytics-section">
+
+    <div class="section-title">
+        <h2>Well Analytics</h2>
+    </div>
+
+    <div class="analytics-grid">
+
+        <!-- Temperature -->
+        <div class="analytics-card">
+            <h3>Temperature</h3>
+
+            <div class="analytics-values">
+                <div>
+                    <span>Average</span>
+                    <strong id="tempAvg">--</strong>
+                </div>
+
+                <div>
+                    <span>Minimum</span>
+                    <strong id="tempMin">--</strong>
+                </div>
+
+                <div>
+                    <span>Maximum</span>
+                    <strong id="tempMax">--</strong>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Pressure -->
+        <div class="analytics-card">
+            <h3>Pressure</h3>
+
+            <div class="analytics-values">
+                <div>
+                    <span>Average</span>
+                    <strong id="pressureAvg">--</strong>
+                </div>
+
+                <div>
+                    <span>Minimum</span>
+                    <strong id="pressureMin">--</strong>
+                </div>
+
+                <div>
+                    <span>Maximum</span>
+                    <strong id="pressureMax">--</strong>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Viscosity -->
+        <div class="analytics-card">
+            <h3>Viscosity</h3>
+
+            <div class="analytics-values">
+                <div>
+                    <span>Average</span>
+                    <strong id="viscosityAvg">--</strong>
+                </div>
+
+                <div>
+                    <span>Minimum</span>
+                    <strong id="viscosityMin">--</strong>
+                </div>
+
+                <div>
+                    <span>Maximum</span>
+                    <strong id="viscosityMax">--</strong>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Total Records -->
+        <div class="analytics-card records-card">
+
+            <h3>Total Records</h3>
+
+            <strong id="totalRecords">--</strong>
+
+            <span>Database Entries</span>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ================= ANOMALY DETECTION ================= -->
+
+<section class="anomaly-section">
+
+    <div class="section-title">
+        <h2>Well Health & Anomaly Detection</h2>
+    </div>
+
+    <div class="anomaly-panel">
+
+        <div class="health-status">
+
+            <div id="healthIndicator" class="health-indicator">
+                ●
+            </div>
+
+            <div>
+                <span>Current Well Status</span>
+
+                <strong id="healthStatus">
+                    CHECKING...
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="anomaly-details">
+
+            <div>
+                <span>Temperature</span>
+                <strong id="anomalyTemperature">--</strong>
+            </div>
+
+            <div>
+                <span>Pressure</span>
+                <strong id="anomalyPressure">--</strong>
+            </div>
+
+            <div>
+                <span>Viscosity</span>
+                <strong id="anomalyViscosity">--</strong>
+            </div>
+
+        </div>
+
+
+        <div class="warning-box">
+
+            <h3>Detected Issues</h3>
+
+            <p id="warningMessage">
+                No anomalies detected.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ================= ML PREDICTION ================= -->
+
+<section class="prediction-section">
+
+    <div class="section-title">
+        <h2>ML Prediction</h2>
+
+        <span id="predictionStatus">
+            MODEL READY
+        </span>
+    </div>
+
+    <div class="prediction-grid">
+
+        <!-- Temperature -->
+
+        <div class="prediction-card">
+
+            <h3>Predicted Temperature</h3>
+
+            <strong id="predictedTemperature">
+                --
+            </strong>
+
+            <span>°C</span>
+
+        </div>
+
+
+        <!-- Pressure -->
+
+        <div class="prediction-card">
+
+            <h3>Predicted Pressure</h3>
+
+            <strong id="predictedPressure">
+                --
+            </strong>
+
+            <span>Pressure</span>
+
+        </div>
+
+
+        <!-- Viscosity -->
+
+        <div class="prediction-card">
+
+            <h3>Predicted Viscosity</h3>
+
+            <strong id="predictedViscosity">
+                --
+            </strong>
+
+            <span>Viscosity</span>
+
+        </div>
+
+
+        <!-- Data Points -->
+
+        <div class="prediction-card">
+
+            <h3>Training Data</h3>
+
+            <strong id="dataPointsUsed">
+                --
+            </strong>
+
+            <span>Records Used</span>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ================= PRODUCTION ================= -->
+
+<section class="production-section">
+
+    <div class="section-title">
+        <h2>Production Forecast</h2>
+    </div>
+
+    <div class="production-grid">
+
+        <div class="production-card">
+            <span>Current Production</span>
+
+            <strong id="currentProduction">
+                --
+            </strong>
+
+            <small>bbl/day</small>
+        </div>
+
+
+        <div class="production-card">
+            <span>Predicted Production</span>
+
+            <strong id="predictedProduction">
+                --
+            </strong>
+
+            <small>bbl/day</small>
+        </div>
+
+    </div>
+
+</section>
+            <!-- ================= QUICK INFO ================= -->
+            <div class="panel info-panel">
+
+                <div class="panel-header">
+                    <div>
+                        <p class="eyebrow">WELL INFORMATION</p>
+                        <h2>Well Overview</h2>
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <span>Well ID</span>
+                    <strong id="wellId">BW-01</strong>
+                </div>
+
+                <div class="info-row">
+                    <span>Field</span>
+                    <strong>Baghewala</strong>
+                </div>
+
+                <div class="info-row">
+                    <span>Reservoir</span>
+                    <strong>Light Oil</strong>
+                </div>
+
+                <div class="info-row">
+                    <span>Well Depth</span>
+                    <strong>2,850 m</strong>
+                </div>
+
+                <div class="info-row">
+                    <span>Production</span>
+                    <strong class="green-text">1,240 BOPD</strong>
+                </div>
+
+                <div class="info-row">
+                    <span>Last Update</span>
+                    <strong id="lastUpdate">Just now</strong>
+                </div>
+
+                <button class="primary-btn" id="refreshButton">
+                    ↻ Refresh Data
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= BOTTOM STATUS ================= -->
+        <section class="bottom-grid">
+
+            <div class="mini-panel">
+                <span class="mini-title">FLOW RATE</span>
+                <strong>1,240 <small>BOPD</small></strong>
+                <p class="positive">▲ 4.8% today</p>
+            </div>
+
+            <div class="mini-panel">
+                <span class="mini-title">WATER CUT</span>
+                <strong>18.4 <small>%</small></strong>
+                <p class="positive">Stable</p>
+            </div>
+
+            <div class="mini-panel">
+                <span class="mini-title">API GRAVITY</span>
+                <strong>34.2 <small>°API</small></strong>
+                <p class="positive">Normal</p>
+            </div>
+
+            <div class="mini-panel">
+                <span class="mini-title">WELL HEALTH</span>
+                <strong>98 <small>%</small></strong>
+                <p class="positive">Excellent</p>
+            </div>
+
+        </section>
+
+
+        <footer>
+            PetroPulse Digital Twin • Baghewala Reservoir Monitoring System
+        </footer>
+
+    </main>
+
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+</html>
+```

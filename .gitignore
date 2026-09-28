@@ -1,0 +1,10 @@
+# VS Code
+.vscode/
+
+# Operating system
+Thumbs.db
+.DS_Store
+
+# Temporary files
+*.tmp
+*.log
