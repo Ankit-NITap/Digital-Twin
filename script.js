@@ -9,6 +9,7 @@
 ===================================== */
 
 const API_URL = "http://127.0.0.1:8000/well-data";
+const DATA_REFRESH_INTERVAL_MS = 5000;
 
 
 /* =====================================
@@ -24,7 +25,7 @@ function updateClock() {
     document.getElementById("currentTime").textContent = time;
 }
 
-setInterval(updateClock, 1000);
+setInterval(updateClock, DATA_REFRESH_INTERVAL_MS);
 
 updateClock();
 
@@ -588,7 +589,7 @@ setInterval(function () {
 
     }
 
-}, 5000);
+}, DATA_REFRESH_INTERVAL_MS);
 
 
 /* =====================================
@@ -787,7 +788,7 @@ setInterval(function () {
 
     loadAnalytics();
 
-}, 5000);
+}, DATA_REFRESH_INTERVAL_MS);
 /* =====================================
    ANOMALY DETECTION
 ===================================== */
@@ -917,7 +918,7 @@ setInterval(function () {
 
     loadAnomaly();
 
-}, 5000);
+}, DATA_REFRESH_INTERVAL_MS);
 /* =====================================
    ML PREDICTION
 ===================================== */
@@ -1020,7 +1021,7 @@ setInterval(function () {
 
     loadPrediction();
 
-}, 10000);
+}, DATA_REFRESH_INTERVAL_MS);
 /* =====================================
    PRODUCTION FORECAST
 ===================================== */
@@ -1072,4 +1073,4 @@ setInterval(function () {
 
     loadProduction();
 
-}, 10000);
+}, DATA_REFRESH_INTERVAL_MS);

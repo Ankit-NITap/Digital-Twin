@@ -56,16 +56,27 @@ PETROPULSE/
 ├── style.css
 ├── script.js
 ├── README.md
+├── backend/
+│   ├── main.py
+│   └── reservoir.db
 │
 └── assets/
     └── images/
 
 ## 🚀 How to Run
 
-1. Open the project folder in VS Code.
-2. Open `index.html`.
-3. Run the project using a browser or Live Server.
-4. The PETROPULSE dashboard will appear.
+1. Open a terminal in the project folder and start the backend:
+
+   ```powershell
+   cd backend
+   python -m uvicorn main:app --reload --host 127.0.0.1 --port 8000
+   ```
+
+   Keep this terminal open while using the dashboard. The API is available at
+   `http://127.0.0.1:8000`, and its interactive docs are at
+   `http://127.0.0.1:8000/docs`.
+2. Open the project folder in VS Code and launch `index.html` with Live Server.
+   The dashboard requests its data from the running backend.
 
 ## 🔮 Future Improvements
 
